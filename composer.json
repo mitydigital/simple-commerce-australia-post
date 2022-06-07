@@ -1,0 +1,24 @@
+{
+    "name": "mitydigital/simple-commerce-australia-post",
+    "description": "Australia Post Shipping Methods for Simple Commerce",
+    "autoload": {
+        "psr-4": {
+            "MityDigital\\SimpleCommerceAustraliaPost\\": "src"
+        }
+    },
+    "require": {
+        "php": "^8.1",
+        "doublethreedigital/simple-commerce": "3.1.*"
+    },
+    "extra": {
+        "statamic": {
+            "name": "Simple Commerce Australia Post Shipping Methods",
+            "description": "Australia Post Shipping Methods for Simple Commerce"
+        },
+        "laravel": {
+            "providers": [
+                "MityDigital\\SimpleCommerceAustraliaPost\\ServiceProvider"
+            ]
+        }
+    }
+}

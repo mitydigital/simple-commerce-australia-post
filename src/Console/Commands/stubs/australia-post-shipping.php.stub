@@ -1,0 +1,40 @@
+<?php
+
+namespace DummyNamespace;
+
+use MityDigital\SimpleCommerceAustraliaPost\Shipping\AustraliaPostBaseShippingMethod;
+
+class DummyClass extends AustraliaPostBaseShippingMethod
+{
+    public function name(): string
+    {
+        return 'Name of your Australia Post shipping method';
+    }
+
+    public function description(): string
+    {
+        return 'Description of your Australia Post shipping method';
+    }
+
+    public function domesticServiceCode(): string|false
+    {
+        //
+        // You can get the list of Service Codes for Domestic Parcels by running:
+        //   php please scap:domestic-parcel-services {TO POSTCODE}
+        //
+        // Return false to disable International shipping for this shipping method.
+        //
+        return 'AP SERVICE CODE';
+    }
+
+    public function internationalServiceCode(): string|false
+    {
+        //
+        // You can get the list of Service Codes for International Parcels by running:
+        //   php please scap:international-parcel-services {COUNTRY CODE}
+        //
+        // Return false to disable International shipping for this shipping method.
+        //
+        return false;
+    }
+}
