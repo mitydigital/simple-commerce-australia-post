@@ -67,6 +67,15 @@ AUSTRALIA_POST_PAC_KEY=YOUR_API_KEY
 
 ## The concept
 
+> **TL;DR**
+>
+> Use this addon to create Shipping Methods for Simple Commerce that work with the Australia Post PAC API.
+>
+> Each Shipping Method you create can include up to one Domestic and up to one International Australia Post Service
+> Code. This addon can create Australia Post-compatible Shipping Methods for you using a command.
+>
+> Your Simple Commerce Products will need to have package dimensions and weight attributes added.
+
 Australia Post's Postage Assessment Calculator (PAC) allows you to get a quote for any of their services, including both
 domestic (Australia) and international options.
 
