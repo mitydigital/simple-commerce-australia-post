@@ -70,8 +70,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
         // if there is no cost (it is null) run the availability check again
         // this usually happens when the shipping method is selected, and the user
         // progresses to the next stage of the checkout process.
-        if ($this->cost === null)
-        {
+        if ($this->cost === null) {
             $this->checkAvailability($order, Address::from('shipping', $order));
         }
 
@@ -142,8 +141,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
         $this->packages = [];
 
         // we require a location
-        if (!$this->location)
-        {
+        if (!$this->location) {
             return;
         }
 
@@ -151,17 +149,19 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
         $items = [];
 
         // get the field used for free shipping
-        $freeShippingField = config('simple-commerce-australia-post.mappings.free_shipping', 'free_shipping');
-        $hasAtLeastOneFreeShippingProduct = false;
+        $excludeFromShippingField = config('simple-commerce-australia-post.mappings.exclude_from_calculations',
+            'exclude_from_calculations');
+        $hasAtLeastOneExcludeFromShippingProduct = false;
 
         foreach ($order->lineItems as $lineItem) {
 
             // is this item marked as free shipping? if so, skip it
-            $freeShipping = $lineItem->product->get($freeShippingField);
-            if ($freeShipping && is_array($freeShipping) && in_array(get_class($this), $freeShipping)) {
-                // mark as order having a free product
+            $excludeFromShipping = $lineItem->product->get($excludeFromShippingField);
+            if ($excludeFromShipping && is_array($excludeFromShipping) && in_array(get_class($this),
+                    $excludeFromShipping)) {
+                // mark as order having an excluded product
                 // this is so we can still use the shipping method (as $0.00) even for free shipping products
-                $hasAtLeastOneFreeShippingProduct = true;
+                $hasAtLeastOneExcludeFromShippingProduct = true;
 
                 // skip adding product to list
                 continue;
@@ -179,9 +179,8 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
 
         // if there are no items, let's get out (or mark as having free shipping if all are free)
         if (!count($items)) {
-            // if we have no items, but we have at least one free shipping product, then we have free shipping on
-            // everything in the order
-            if ($hasAtLeastOneFreeShippingProduct) {
+            // if we have no items, but we have at least one product excluded from shipping, then we have a $0.00 shipping for this order
+            if ($hasAtLeastOneExcludeFromShippingProduct) {
                 // mark as being valid
                 $this->freeShipping = true;
             }
@@ -373,7 +372,8 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
             switch ($this->location) {
                 case AustraliaPostLocation::DOMESTIC:
                     // get the domestic cost
-                    $responses = $service->batchCalculateDomesticParcelCost($this->domesticServiceCode(), $address->zipCode(),
+                    $responses = $service->batchCalculateDomesticParcelCost($this->domesticServiceCode(),
+                        $address->zipCode(),
                         $this->packages);
                     break;
                 case AustraliaPostLocation::INTERNATIONAL:
