@@ -49,11 +49,14 @@ To get started, run the following command from your project root:
 composer require mitydigital/simple-commerce-australia-post
 ```
 
-You'll most likely need to make changes to the configuration file too, so publish that while you're at it:
+You will need to make changes to the config file, so publish that while you're at it:
 
 ```
 php please vendor:publish --tag=simple-commerce-australia-post-config
 ```
+
+First up, go to the newly published `/config/simple-commerce-australia-post.php` file and set your `from_postcode`. This
+must be set before you can perform any interactions with the Australia Post PAC API.
 
 To use the Australia Post PAC you will need an API key. You can
 [register for an API key at Australia Post's website](https://developers.auspost.com.au/apis/pacpcs-registration).
@@ -128,7 +131,7 @@ When you have published the configuration file, you can find it in `/config/simp
 where you can:
 
 - define your Blueprint field mappings
-- define your "from" postcode, required for calculations to work
+- define your "from" postcode, **required** for calculations to work
 - tweak your .env API key variable name (if you wanted)
 
 The comments in the config file should help you set up your configuration with ease.
