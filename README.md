@@ -33,7 +33,7 @@ help you. So be awesome - it'll feel fantastic.
 
 Requires:
 
-- [Simple Commerce](https://statamic.com/addons/double-three-digital/simple-commerce)
+- [Simple Commerce](https://statamic.com/addons/duncanmcclean/simple-commerce)
   by [Duncan McClean](https://github.com/duncanmcclean)
 
 ## License
