@@ -2,15 +2,17 @@
 
 <!-- statamic:hide -->
 
-![Statamic 3.3+](https://img.shields.io/badge/Statamic-3.3+-FF269E?style=for-the-badge&link=https://statamic.com)
+![Statamic 4.0+](https://img.shields.io/badge/Statamic-4.0+-FF269E?style=for-the-badge&link=https://statamic.com)
 [![Australia Post Shipping Methods for Simple Commerce on Packagist](https://img.shields.io/packagist/v/mitydigital/simple-commerce-australia-post?style=for-the-badge)](https://packagist.org/packages/mitydigital/simple-commerce-australia-post/stats)
 
 ---
 
 <!-- /statamic:hide -->
 
-> An addon for Statamic 3.3+ and Simple Commerce 3.1+ to integrate with the Australia Post Postage Assessment Calculator
+> An addon for Statamic 4 and Simple Commerce 5 to integrate with the Australia Post Postage Assessment Calculator
 > API.
+
+For Simple Commerce 3/4 and Statamic 3.3/3.4, please use the [1.x branch](../../tree/1.x) and 1.x releases. These older versions are no longer being updated - make sure you upgrade to Simple Commerce 5.
 
 ## Documentation
 
