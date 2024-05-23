@@ -13,15 +13,15 @@ class ServiceProvider extends AddonServiceProvider
     protected $commands = [
         DomesticParcelServicesCommand::class,
         InternationalParcelServicesCommand::class,
-        MakeAustraliaPostShippingMethod::class
+        MakeAustraliaPostShippingMethod::class,
     ];
 
     protected $fieldtypes = [
-        AustraliaPostShippingMethods::class
+        AustraliaPostShippingMethods::class,
     ];
 
     protected $scripts = [
-        __DIR__.'/../dist/js/australia-post-shipping-methods.js'
+        __DIR__.'/../dist/js/australia-post-shipping-methods.js',
     ];
 
     public function bootAddon()

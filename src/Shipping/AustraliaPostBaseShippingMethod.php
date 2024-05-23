@@ -2,10 +2,10 @@
 
 namespace MityDigital\SimpleCommerceAustraliaPost\Shipping;
 
-use DoubleThreeDigital\SimpleCommerce\Contracts\Order;
-use DoubleThreeDigital\SimpleCommerce\Contracts\ShippingMethod;
-use DoubleThreeDigital\SimpleCommerce\Orders\Address;
-use DoubleThreeDigital\SimpleCommerce\Shipping\BaseShippingMethod;
+use DuncanMcClean\SimpleCommerce\Contracts\Order;
+use DuncanMcClean\SimpleCommerce\Contracts\ShippingMethod;
+use DuncanMcClean\SimpleCommerce\Orders\Address;
+use DuncanMcClean\SimpleCommerce\Shipping\BaseShippingMethod;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Log;
 use MityDigital\SimpleCommerceAustraliaPost\Contracts\AustraliaPostShippingMethod;
@@ -13,28 +13,37 @@ use MityDigital\SimpleCommerceAustraliaPost\Enums\AustraliaPostLocation;
 use MityDigital\SimpleCommerceAustraliaPost\Services\AustraliaPostPostageAssessmentCalculator;
 use Statamic\Facades\Blink;
 
-abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implements ShippingMethod, AustraliaPostShippingMethod
+abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implements AustraliaPostShippingMethod, ShippingMethod
 {
     // weight restrictions
     protected const DOMESTIC_MAX_WEIGHT = 22;
+
     protected const INTL_MAX_WEIGHT = 20;
 
     // dimension restrictions
     protected const MAX_DIMENSION = 105;
+
     protected const MAX_CUBIC_METRES = 0.25;
+
     protected const MAX_GIRTH = 140;
 
     // minimum girths
     protected const MIN_HEIGHT = 1;
+
     protected const MIN_LENGTH = 1;
+
     protected const MIN_WIDTH = 1;
+
     protected const MIN_WEIGHT = 0.01;
 
     // internal properties
-    protected array|null $packages = null;
-    protected float|null $cost = null;
+    protected ?array $packages = null;
+
+    protected ?float $cost = null;
+
     protected bool $freeShipping = false;
-    protected AustraliaPostLocation|null $location = null;
+
+    protected ?AustraliaPostLocation $location = null;
 
     public function __construct(array $config = [])
     {
@@ -51,7 +60,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
             'packages' => $this->packages,
             'cost' => $this->cost,
             'freeShipping' => $this->freeShipping,
-            'location' => $this->location
+            'location' => $this->location,
         ]);
 
         // update internal properties
@@ -81,11 +90,11 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
     public function checkAvailability(Order $order, Address $address): bool
     {
         // is the shipping location allowed for the order's address?
-        if (!$this->isLocationAllowedForAddress($address)) {
+        if (! $this->isLocationAllowedForAddress($address)) {
             return false;
         }
 
-        if (!$this->packages) {
+        if (! $this->packages) {
             $this->buildPackages($order);
         }
 
@@ -109,14 +118,14 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
     protected function isLocationAllowedForAddress(Address $address): bool
     {
         $country = $address->country();
-        if (!isset($country) || !isset($country['iso'])) {
+        if (! isset($country) || ! isset($country['iso'])) {
             // there is no country
             return false;
         }
 
         if ($country['iso'] == 'AU') {
             // country is Australia - does this shipping method allow domestic?
-            if (!$this->domesticServiceCode()) {
+            if (! $this->domesticServiceCode()) {
                 return false;
             }
 
@@ -124,7 +133,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
             $this->location = AustraliaPostLocation::DOMESTIC;
         } else {
             // country is NOT Australia - does this shipping method allow international?
-            if (!$this->internationalServiceCode()) {
+            if (! $this->internationalServiceCode()) {
                 return false;
             }
 
@@ -141,7 +150,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
         $this->packages = [];
 
         // we require a location
-        if (!$this->location) {
+        if (! $this->location) {
             return;
         }
 
@@ -158,7 +167,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
             // is this item marked as free shipping? if so, skip it
             $excludeFromShipping = $lineItem->product->get($excludeFromShippingField);
             if ($excludeFromShipping && is_array($excludeFromShipping) && in_array(get_class($this),
-                    $excludeFromShipping)) {
+                $excludeFromShipping)) {
                 // mark as order having an excluded product
                 // this is so we can still use the shipping method (as $0.00) even for free shipping products
                 $hasAtLeastOneExcludeFromShippingProduct = true;
@@ -178,7 +187,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
         }
 
         // if there are no items, let's get out (or mark as having free shipping if all are free)
-        if (!count($items)) {
+        if (! count($items)) {
             // if we have no items, but we have at least one product excluded from shipping, then we have a $0.00 shipping for this order
             if ($hasAtLeastOneExcludeFromShippingProduct) {
                 // mark as being valid
@@ -250,7 +259,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
 
             for ($i = 0; $i < count($items); $i++) {
                 // do we have a package already?
-                if (!isset($this->packages[$i])) {
+                if (! isset($this->packages[$i])) {
                     //
                     // no package yet, so create a package and add the item to it
                     //
@@ -304,7 +313,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
 
                     // can we add it to this package?
                     if (
-                        $package['weight'] + $weight <= $maxWeight &&
+                        $maxWeight >= $package['weight'] + $weight &&
                         $maxValue <= self::MAX_DIMENSION &&
                         $newCubicMetres <= self::MAX_CUBIC_METRES
                     ) {
@@ -386,13 +395,14 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
 
             foreach ($responses as $response) {
                 // if any one response fails, consider the request a total failure
-                if (!$response->ok()) {
+                if (! $response->ok()) {
                     $error = $response->json();
                     if (isset($error['error']) && isset($error['error']['errorMessage'])) {
                         Log::error('PAC call failed: '.$error['error']['errorMessage'], $error);
                     } else {
                         Log::error('PAC call failed: missing \'errorMessage\' param.', $error);
                     }
+
                     return;
                 }
 
@@ -400,8 +410,9 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
                 $body = $response->json();
 
                 // look for "postage_result"
-                if (!isset($body['postage_result']) || !isset($body['postage_result']['total_cost'])) {
+                if (! isset($body['postage_result']) || ! isset($body['postage_result']['total_cost'])) {
                     Log::error('calculateAustraliaPostShippingCost could not find cost.', $response->json());
+
                     return;
                 }
 
@@ -421,7 +432,7 @@ abstract class AustraliaPostBaseShippingMethod extends BaseShippingMethod implem
             'packages' => $this->packages,
             'cost' => $this->cost,
             'freeShipping' => $this->freeShipping,
-            'location' => $this->location
+            'location' => $this->location,
         ]);
     }
 }

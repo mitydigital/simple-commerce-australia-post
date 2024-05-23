@@ -35,7 +35,6 @@ return [
         'weight' => 'weight',
     ],
 
-
     /*
     |--------------------------------------------------------------------------
     | From Postcode
@@ -46,7 +45,6 @@ return [
     */
 
     'from_postcode' => '',
-
 
     /*
     |--------------------------------------------------------------------------
@@ -60,6 +58,6 @@ return [
     |
     */
 
-    'api_key' => env('AUSTRALIA_POST_PAC_KEY', null)
+    'api_key' => env('AUSTRALIA_POST_PAC_KEY', null),
 
 ];

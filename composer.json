@@ -1,6 +1,6 @@
 {
   "name": "mitydigital/simple-commerce-australia-post",
-  "description": "Australia Post Shipping Methods for Simple Commerce 5",
+  "description": "Australia Post Shipping Methods for Simple Commerce",
   "license": "MIT",
   "type": "statamic-addon",
   "autoload": {
@@ -9,19 +9,35 @@
     }
   },
   "require": {
-    "php": "^8.2",
-    "statamic/cms": "~4.0",
-    "doublethreedigital/simple-commerce": "~5.0"
+    "php": "^8.3",
+    "statamic/cms": "^5.0",
+    "duncanmcclean/simple-commerce": "^7.0"
   },
   "extra": {
     "statamic": {
       "name": "Simple Commerce Australia Post Shipping Methods",
-      "description": "Australia Post Shipping Methods for Simple Commerce 5"
+      "description": "Australia Post Shipping Methods for Simple Commerce"
     },
     "laravel": {
       "providers": [
         "MityDigital\\SimpleCommerceAustraliaPost\\ServiceProvider"
       ]
     }
+  },
+  "config": {
+    "allow-plugins": {
+      "pixelfear/composer-dist-plugin": true
+    }
+  },
+  "require-dev": {
+    "laravel/pint": "^1.16"
+  },
+  "scripts": {
+    "pint": [
+      "./vendor/bin/pint"
+    ],
+    "test": [
+      "php -d memory_limit=-1 -d max_execution_time=0 ./vendor/bin/pest"
+    ]
   }
 }

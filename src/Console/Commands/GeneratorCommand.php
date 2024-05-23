@@ -11,8 +11,6 @@ class GeneratorCommand extends StatamicGeneratorCommand
      *
      * We need to do this ourselves so it uses the
      * Simple Commerce Australia Post stub path.
-     *
-     * @return string
      */
     protected function getStub($stub = null): string
     {

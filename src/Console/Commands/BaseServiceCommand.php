@@ -13,17 +13,19 @@ abstract class BaseServiceCommand extends Command
     {
         $response = $this->callService($service);
 
-        if (!$response->ok()) {
+        if (! $response->ok()) {
             $this->error('The Australia Post PAC returned an invalid response.');
             $this->error($response->body());
+
             return;
         }
 
         // get the body
         $body = $response->json();
 
-        if (!isset($body['services']) || !isset($body['services']['service'])) {
+        if (! isset($body['services']) || ! isset($body['services']['service'])) {
             $this->error('Unexpected response from the Australia Post PAC: a list of services was not returned.');
+
             return;
         }
 
@@ -31,7 +33,7 @@ abstract class BaseServiceCommand extends Command
         foreach ($body['services']['service'] as $service) {
             $services[] = [
                 'Code' => $service['code'],
-                'Name' => $service['name']
+                'Name' => $service['name'],
             ];
         }
 
