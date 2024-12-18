@@ -4,7 +4,7 @@ namespace MityDigital\SimpleCommerceAustraliaPost\Console\Commands;
 
 use Statamic\Console\Commands\GeneratorCommand as StatamicGeneratorCommand;
 
-class GeneratorCommand extends StatamicGeneratorCommand
+abstract class GeneratorCommand extends StatamicGeneratorCommand
 {
     /**
      * Taken from Simple Commerce
