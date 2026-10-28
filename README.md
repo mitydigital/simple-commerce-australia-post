@@ -9,6 +9,11 @@
 
 <!-- /statamic:hide -->
 
+> Simple Commerce has become Cargo - and we've created a [new version](https://github.com/mitydigital/cargo-australia-post) of this addon made especially for Cargo.
+>
+> The Simple Commerce addon will no longer receive updates - upgrade your site to Cargo.
+
+
 > An addon for Statamic 4 and Simple Commerce 5 to integrate with the Australia Post Postage Assessment Calculator
 > API.
 
