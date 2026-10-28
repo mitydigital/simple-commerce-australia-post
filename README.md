@@ -1,5 +1,14 @@
 # Australia Post Shipping Methods for Simple Commerce
 
+# ⛔️ RETIRED for CARGO
+
+> **Warning**  
+> This repository has been archived by the owner. It is now read-only and is no longer actively maintained or supported.
+> Upgrade your Simple Commerce sites to Cargo, and you can use our [new addon](https://github.com/mitydigital/cargo-australia-post).
+
+### 🔄 Alternative / Successor
+Simple Commerce has been rebuilt as [Cargo](https://builtwithcargo.dev) - and we've created a [new version](https://github.com/mitydigital/cargo-australia-post) of this addon made especially for Cargo.
+
 <!-- statamic:hide -->
 
 ![Statamic 4.0+](https://img.shields.io/badge/Statamic-4.0+-FF269E?style=for-the-badge&link=https://statamic.com)
@@ -8,11 +17,6 @@
 ---
 
 <!-- /statamic:hide -->
-
-> Simple Commerce has become Cargo - and we've created a [new version](https://github.com/mitydigital/cargo-australia-post) of this addon made especially for Cargo.
->
-> The Simple Commerce addon will no longer receive updates - upgrade your site to Cargo.
-
 
 > An addon for Statamic 4 and Simple Commerce 5 to integrate with the Australia Post Postage Assessment Calculator
 > API.
